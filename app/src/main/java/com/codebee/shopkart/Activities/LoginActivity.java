@@ -1,11 +1,12 @@
-package com.codebee.shopkart;
+package com.codebee.shopkart.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
+
+import com.codebee.shopkart.R;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -16,6 +17,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void registerNow(View v){
-        startActivity(new Intent(LoginActivity.this,RegistrationActivity.class));
+        startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
     }
 }
