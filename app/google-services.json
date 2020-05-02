@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1059310962640",
+    "firebase_url": "https://shopkart-1e842.firebaseio.com",
+    "project_id": "shopkart-1e842",
+    "storage_bucket": "shopkart-1e842.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1059310962640:android:3cbf0b1469c5d8cb885bd5",
+        "android_client_info": {
+          "package_name": "com.codebee.shopkart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1059310962640-1a2sodntcpk12qqdq6mhfdtga5ngd6tu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmUtft72CVF8UcQQb4V6O3kH2AaH-0Rxo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1059310962640-1a2sodntcpk12qqdq6mhfdtga5ngd6tu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
