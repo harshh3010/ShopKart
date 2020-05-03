@@ -1,9 +1,11 @@
 package com.codebee.shopkart.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -59,30 +61,49 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.shop_fragment_container, new HomeFragment()).commit();
+                drawerLayout.closeDrawer(Gravity.LEFT);
                 break;
             case R.id.navigation_electronics:
                 getSupportFragmentManager().beginTransaction().replace(R.id.shop_fragment_container, new ElectronicsFragment()).commit();
+                drawerLayout.closeDrawer(Gravity.LEFT);
                 break;
             case R.id.navigation_fashion :
                 getSupportFragmentManager().beginTransaction().replace(R.id.shop_fragment_container, new FashionFragment()).commit();
+                drawerLayout.closeDrawer(Gravity.LEFT);
                 break;
             case R.id.navigation_sports :
                 getSupportFragmentManager().beginTransaction().replace(R.id.shop_fragment_container, new SportsFragment()).commit();
+                drawerLayout.closeDrawer(Gravity.LEFT);
                 break;
             case R.id.navigation_books :
                 getSupportFragmentManager().beginTransaction().replace(R.id.shop_fragment_container, new BooksFragment()).commit();
+                drawerLayout.closeDrawer(Gravity.LEFT);
                 break;
             case R.id.navigation_toys :
                 getSupportFragmentManager().beginTransaction().replace(R.id.shop_fragment_container, new ToysFragment()).commit();
+                drawerLayout.closeDrawer(Gravity.LEFT);
                 break;
             case R.id.navigation_appliances :
                 getSupportFragmentManager().beginTransaction().replace(R.id.shop_fragment_container, new HomeAppliancesFragment()).commit();
+                drawerLayout.closeDrawer(Gravity.LEFT);
+                break;
+            case R.id.navigation_account :
+                startActivityForResult(new Intent(ShopActivity.this,AccountActivity.class),1);
                 break;
             case R.id.navigation_share :
                 Toast.makeText(ShopActivity.this,"Share",Toast.LENGTH_SHORT).show();
                 break;
         }
-        drawerLayout.closeDrawer(Gravity.LEFT);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            startActivity(new Intent(ShopActivity.this, LoginActivity.class));
+            finish();
+        }
     }
 }

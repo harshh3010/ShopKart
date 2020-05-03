@@ -1,35 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item android:id="@+id/navigation_home"
-            android:title="Home"
-            android:icon="@drawable/ic_home"/>
-        <item android:id="@+id/navigation_electronics"
-            android:title="Electronics"
-            android:icon="@drawable/ic_phone"/>
-        <item android:id="@+id/navigation_fashion"
-            android:title="Fashion"
-            android:icon="@drawable/ic_phone"/>
-        <item android:id="@+id/navigation_sports"
-            android:title="Sports and Fitness"
-            android:icon="@drawable/ic_fitness"/>
-        <item android:id="@+id/navigation_books"
-            android:title="Books and Study"
-            android:icon="@drawable/ic_school"/>
-        <item android:id="@+id/navigation_toys"
-            android:title="Toys and Kids"
-            android:icon="@drawable/ic_toys"/>
-        <item android:id="@+id/navigation_appliances"
-            android:title="Home appliances"
-            android:icon="@drawable/ic_tv"/>
-    </group>
+    <item android:title="Shop Online">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/navigation_home"
+                    android:title="Home"
+                    android:icon="@drawable/ic_home"/>
+                <item android:id="@+id/navigation_electronics"
+                    android:title="Electronics"
+                    android:icon="@drawable/ic_phone"/>
+                <item android:id="@+id/navigation_fashion"
+                    android:title="Fashion"
+                    android:icon="@drawable/ic_phone"/>
+                <item android:id="@+id/navigation_sports"
+                    android:title="Sports and Fitness"
+                    android:icon="@drawable/ic_fitness"/>
+                <item android:id="@+id/navigation_books"
+                    android:title="Books and Study"
+                    android:icon="@drawable/ic_school"/>
+                <item android:id="@+id/navigation_toys"
+                    android:title="Toys and Kids"
+                    android:icon="@drawable/ic_toys"/>
+                <item android:id="@+id/navigation_appliances"
+                    android:title="Home appliances"
+                    android:icon="@drawable/ic_tv"/>
+            </group>
+        </menu>
+    </item>
+
+    <item android:id="@+id/navigation_orders"
+        android:title="My Orders"
+        android:icon="@drawable/ic_shopping_basket"/>
+    <item android:id="@+id/navigation_cart"
+        android:title="My Cart"
+        android:icon="@drawable/ic_shopping_cart"/>
+    <item android:id="@+id/navigation_wishlist"
+        android:title="My Wishlist"
+        android:icon="@drawable/ic_star"/>
+    <item android:id="@+id/navigation_account"
+        android:title="My Account"
+        android:icon="@drawable/ic_person"/>
+
 
     <item android:title="Communtication">
         <menu>
             <item android:id="@+id/navigation_share"
                 android:title="Share"
                 android:icon="@drawable/ic_share"/>
+            <item android:id="@+id/navigation_help"
+                android:title="Help"
+                android:icon="@drawable/ic_help"/>
         </menu>
     </item>
 
