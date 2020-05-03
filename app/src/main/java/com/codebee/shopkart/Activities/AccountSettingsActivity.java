@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -32,6 +33,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private ProgressDialog pd;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,10 +107,92 @@ public class AccountSettingsActivity extends AppCompatActivity {
                 finish();
             }
         });
-        //TODO : change password code
+
+        findViewById(R.id.account_settings_password_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatePassword();
+            }
+        });
 
     }
 
+    private void  updatePassword(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(AccountSettingsActivity.this);
+        View view = LayoutInflater.from(AccountSettingsActivity.this).inflate(R.layout.dialog_change_password,null);
+        final EditText oldpass,newpass,cnfpass;
+        oldpass = view.findViewById(R.id.change_password_old_text);
+        newpass = view.findViewById(R.id.change_password_new_text);
+        cnfpass = view.findViewById(R.id.change_password_confirm_text);
+        view.findViewById(R.id.change_password_cancel_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        view.findViewById(R.id.change_password_proceed_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!cnfpass.getText().toString().trim().isEmpty()
+                        && !newpass.getText().toString().trim().isEmpty()
+                        && !oldpass.getText().toString().trim().isEmpty()){
+                    pd = new ProgressDialog(AccountSettingsActivity.this,R.style.AppCompatAlertDialogStyle);
+                    pd.setMessage("Please wait...");
+                    pd.show();
+                    AuthCredential credential = EmailAuthProvider
+                            .getCredential(userApi.getEmail(), oldpass.getText().toString().trim());
+                    firebaseAuth.getCurrentUser().reauthenticate(credential)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    if(cnfpass.getText().toString().trim().equals(newpass.getText().toString().trim())){
+                                        firebaseAuth.getCurrentUser().updatePassword(newpass.getText().toString().trim())
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        db.getReference("Users")
+                                                                .child(userApi.getId())
+                                                                .child("password")
+                                                                .setValue(newpass.getText().toString().trim());
+                                                        pd.dismiss();
+                                                        alertDialog.dismiss();
+                                                        Toast.makeText(AccountSettingsActivity.this,"Saved changes!",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                pd.dismiss();
+                                                alertDialog.dismiss();
+                                                Toast.makeText(AccountSettingsActivity.this,"An error occured!",Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }else{
+                                        pd.dismiss();
+                                        cnfpass.setError("This doesn't match with the entered password.");
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            pd.dismiss();
+                            oldpass.setError("Incorrect password");
+                        }
+                    });
+                }else{
+                    if(cnfpass.getText().toString().trim().isEmpty())
+                        cnfpass.setError("This field cannot be left empty.");
+                    if(newpass.getText().toString().trim().isEmpty())
+                        newpass.setError("This field cannot be left empty.");
+                    if(oldpass.getText().toString().trim().isEmpty())
+                        oldpass.setError("This field cannot be left empty.");
+                }
+            }
+        });
+
+        builder.setView(view);
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
 
     private void updateData() {
         pd = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
