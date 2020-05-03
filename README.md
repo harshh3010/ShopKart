@@ -16,7 +16,8 @@ This screen is displayed until all of required user data is loaded from the data
  This activity includes a navigation drawer and a  frame layout. The user can navigate between various fragments through the drawer menu.<br>
   <img src="https://github.com/harshh3010/ShopKart/blob/master/AppScreenshots/NavigationDrawer.jpg" width="250">
   <br>
- To user can view his account details in **Account Activity**.Here the user can view his orders, manage his wallet or logout of the app.The **Account Settings** button takes the user to **AccountSettingsActivity** where he can edit his info and also permanently delete his account.
+  <br>
+ The user can view his account details in **Account Activity**.Here the user can view his orders, manage his wallet or logout of the app.The **Account Settings** button takes the user to **AccountSettingsActivity** where he can edit his info and also permanently delete his account.
  <br>
   <img src="https://github.com/harshh3010/ShopKart/blob/master/AppScreenshots/MyAccountActivity1.jpg" width="250">
   <img src="https://github.com/harshh3010/ShopKart/blob/master/AppScreenshots/MyAccountActivity2.jpg" width="250">
