@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codebee.shopkart.R;
@@ -20,11 +21,14 @@ import com.codebee.shopkart.Ui.HomeAppliancesFragment;
 import com.codebee.shopkart.Ui.HomeFragment;
 import com.codebee.shopkart.Ui.SportsFragment;
 import com.codebee.shopkart.Ui.ToysFragment;
+import com.codebee.shopkart.Util.UserApi;
 import com.google.android.material.navigation.NavigationView;
 
 public class ShopActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
+    private TextView name_txt,email_txt;
+    private UserApi userApi = UserApi.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,12 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.shop_drawer_layout);
         NavigationView navigationView = findViewById(R.id.shop_navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View view = navigationView.getHeaderView(0);
+        name_txt = view.findViewById(R.id.nav_header_name_text);
+        email_txt = view.findViewById(R.id.nav_header_email_text);
+
+        name_txt.setText(userApi.getName());
+        email_txt.setText(userApi.getEmail());
 
         findViewById(R.id.shop_menu_image).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -73,22 +73,26 @@ public class AccountSettingsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(final DialogInterface dialog, int which) {
                         String password = input.getText().toString().trim();
-                        AuthCredential credential = EmailAuthProvider
-                                .getCredential(userApi.getEmail(), password);
-                        firebaseAuth.getCurrentUser().reauthenticate(credential)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        dialog.dismiss();
-                                        deleteAccount();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                dialog.dismiss();
-                                Toast.makeText(AccountSettingsActivity.this,"Incorrect password!",Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        if(password.isEmpty()){
+                            Toast.makeText(AccountSettingsActivity.this,"Please enter password to proceed.",Toast.LENGTH_SHORT).show();
+                        }else{
+                            AuthCredential credential = EmailAuthProvider
+                                    .getCredential(userApi.getEmail(), password);
+                            firebaseAuth.getCurrentUser().reauthenticate(credential)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            dialog.dismiss();
+                                            deleteAccount();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    dialog.dismiss();
+                                    Toast.makeText(AccountSettingsActivity.this,"Incorrect password!",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -22,7 +22,7 @@
         android:shadowRadius="3"
         android:text="Name"
         android:textColor="@color/colorAccent"
-        android:textSize="22sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,6 +30,7 @@
         android:id="@+id/nav_header_email_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/taile"
         android:shadowColor="#70000000"
         android:shadowDx="2"
@@ -37,7 +38,7 @@
         android:shadowRadius="3"
         android:text="email@example.com"
         android:textColor="@color/colorAccent"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nav_header_name_text" />
 
