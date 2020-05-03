@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:gravity="bottom"
+    android:padding="16dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <TextView
+        android:id="@+id/nav_header_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:fontFamily="@font/taile"
+        android:textColor="@color/colorAccent"
+        android:textSize="22sp"
+        android:shadowColor="#70000000"
+        android:shadowDx="2"
+        android:shadowDy="3"
+        android:shadowRadius="3"/>
+    <TextView
+        android:id="@+id/nav_header_email_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="email@example.com"
+        android:fontFamily="@font/taile"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
+        android:shadowColor="#70000000"
+        android:shadowDx="2"
+        android:shadowDy="3"
+        android:shadowRadius="3"/>
+
+</LinearLayout>
