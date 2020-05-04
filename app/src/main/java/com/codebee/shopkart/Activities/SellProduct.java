@@ -11,9 +11,13 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.codebee.shopkart.Model.Product;
+import com.codebee.shopkart.Model.User;
 import com.codebee.shopkart.R;
+import com.codebee.shopkart.Util.UserApi;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
@@ -25,6 +29,7 @@ public class SellProduct extends AppCompatActivity {
     public static final int PICK_IMG2 = 3;
     public static final int PICK_IMG3 = 4;
     private Uri featuredImageUri, img1Uri,img2Uri,img3Uri;
+    private UserApi userApi = UserApi.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +156,30 @@ public class SellProduct extends AppCompatActivity {
     }
 
     private void addProduct(){
+        Product product = new Product();
+        product.setId("NodeId");
+        product.setName(((EditText)findViewById(R.id.sell_product_name_text)).getText().toString().trim());
+        product.setDescription(((EditText)findViewById(R.id.sell_product_description_text)).getText().toString().trim());
+        product.setPrice(Double.parseDouble(((EditText)findViewById(R.id.sell_product_price_text)).getText().toString().trim()));
+        product.setVendor(userApi.getEmail());
+        product.setRemainingCount(Integer.parseInt(((EditText)findViewById(R.id.sell_product_quantity_text)).getText().toString().trim()));
+        product.setImages("FirestorePath");
+        product.setModel(((EditText)findViewById(R.id.sell_product_model_text)).getText().toString().trim());
+        product.setSize(((EditText)findViewById(R.id.sell_product_size_text)).getText().toString().trim());
+        product.setBrand(((EditText)findViewById(R.id.sell_product_brand_text)).getText().toString().trim());
 
+        int buttonId = ((RadioGroup)findViewById(R.id.sell_products_category_btng)).getCheckedRadioButtonId();
+        product.setCategory(((RadioButton)findViewById(buttonId)).getText().toString().trim());
+
+        product.setColour(((EditText)findViewById(R.id.sell_product_colour_text)).getText().toString().trim());
+        product.setReleasedTime(System.currentTimeMillis());
+        product.setUpdatedTime(System.currentTimeMillis());
+        product.setShippable(true);
+        product.setDiscount(0);
+        product.setFeaturedImage("FirestorePath");
+        product.setSoldCount(0);
+
+        //TODO : FirestorePath
     }
 
 }

@@ -11,7 +11,7 @@ public class Product {
     private String Model;
     private String Size;
     private String Brand;
-    private char Category;
+    private String Category;
     private String Colour;
     private long ReleasedTime;
     private long UpdatedTime;
@@ -103,11 +103,11 @@ public class Product {
         Brand = brand;
     }
 
-    public char getCategory() {
+    public String getCategory() {
         return Category;
     }
 
-    public void setCategory(char category) {
+    public void setCategory(String category) {
         Category = category;
     }
 
