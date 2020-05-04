@@ -12,7 +12,7 @@
                     android:icon="@drawable/ic_phone"/>
                 <item android:id="@+id/navigation_fashion"
                     android:title="Fashion"
-                    android:icon="@drawable/ic_phone"/>
+                    android:icon="@drawable/ic_tshirt"/>
                 <item android:id="@+id/navigation_sports"
                     android:title="Sports and Fitness"
                     android:icon="@drawable/ic_fitness"/>
@@ -41,6 +41,9 @@
     <item android:id="@+id/navigation_account"
         android:title="My Account"
         android:icon="@drawable/ic_person"/>
+    <item android:id="@+id/navigation_sell"
+        android:title="Sell a product"
+        android:icon="@drawable/ic_money"/>
 
 
     <item android:title="Communtication">

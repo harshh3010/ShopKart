@@ -103,6 +103,9 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
             case R.id.navigation_share :
                 Toast.makeText(ShopActivity.this,"Share",Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.navigation_sell :
+                startActivity(new Intent(ShopActivity.this,SellProduct.class));
+                break;
         }
         return true;
     }
