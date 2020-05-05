@@ -1,9 +1,11 @@
 package com.codebee.shopkart.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -15,15 +17,19 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codebee.shopkart.Model.Product;
 import com.codebee.shopkart.Model.User;
 import com.codebee.shopkart.R;
 import com.codebee.shopkart.Util.UserApi;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 
@@ -38,6 +44,8 @@ public class SellProduct extends AppCompatActivity {
     private AlertDialog dialog;
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference("ProductImages");
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private Double price;
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +173,7 @@ public class SellProduct extends AppCompatActivity {
 
     private void openPaymentDialog(){
 
-        Double price = Double.parseDouble(((EditText)findViewById(R.id.sell_product_price_text)).getText().toString());
+        price = Double.parseDouble(((EditText)findViewById(R.id.sell_product_price_text)).getText().toString());
         int qty = Integer.parseInt(((EditText)findViewById(R.id.sell_product_quantity_text)).getText().toString());
         price = 0.9*price*qty;
 
@@ -193,32 +201,111 @@ public class SellProduct extends AppCompatActivity {
 
     private void addProduct(){
 
-        //todo : use cloud firestore
+        pd = new ProgressDialog(SellProduct.this,R.style.MyAlertDialogStyle);
+        pd.setMessage("Adding product...");
+        pd.show();
 
-//        Product product = new Product();
-//        product.setId("NodeId");
-//        product.setName(((EditText)findViewById(R.id.sell_product_name_text)).getText().toString().trim());
-//        product.setDescription(((EditText)findViewById(R.id.sell_product_description_text)).getText().toString().trim());
-//        product.setPrice(Double.parseDouble(((EditText)findViewById(R.id.sell_product_price_text)).getText().toString().trim()));
-//        product.setVendor(userApi.getEmail());
-//        product.setRemainingCount(Integer.parseInt(((EditText)findViewById(R.id.sell_product_quantity_text)).getText().toString().trim()));
-//        product.setImages("FirestorePath");
-//        product.setModel(((EditText)findViewById(R.id.sell_product_model_text)).getText().toString().trim());
-//        product.setSize(((EditText)findViewById(R.id.sell_product_size_text)).getText().toString().trim());
-//        product.setBrand(((EditText)findViewById(R.id.sell_product_brand_text)).getText().toString().trim());
-//
-//        int buttonId = ((RadioGroup)findViewById(R.id.sell_products_category_btng)).getCheckedRadioButtonId();
-//        product.setCategory(((RadioButton)findViewById(buttonId)).getText().toString().trim());
-//
-//        product.setColour(((EditText)findViewById(R.id.sell_product_colour_text)).getText().toString().trim());
-//        product.setReleasedTime(System.currentTimeMillis());
-//        product.setUpdatedTime(System.currentTimeMillis());
-//        product.setShippable(true);
-//        product.setDiscount(0);
-//        product.setFeaturedImage("FirestorePath");
-//        product.setSoldCount(0);
+        final String productId = db.getReference("Products")
+                .push().getKey();
 
-        //TODO : FirestorePath
+        Product product = new Product();
+        product.setId(productId);
+        product.setName(((EditText)findViewById(R.id.sell_product_name_text)).getText().toString().trim());
+        product.setDescription(((EditText)findViewById(R.id.sell_product_description_text)).getText().toString().trim());
+        product.setPrice(Double.parseDouble(((EditText)findViewById(R.id.sell_product_price_text)).getText().toString().trim()));
+        product.setVendor(userApi.getEmail());
+        product.setRemainingCount(Integer.parseInt(((EditText)findViewById(R.id.sell_product_quantity_text)).getText().toString().trim()));
+        product.setImages("StoragePath");
+        product.setModel(((EditText)findViewById(R.id.sell_product_model_text)).getText().toString().trim());
+        product.setSize(((EditText)findViewById(R.id.sell_product_size_text)).getText().toString().trim());
+        product.setBrand(((EditText)findViewById(R.id.sell_product_brand_text)).getText().toString().trim());
+
+        int buttonId = ((RadioGroup)findViewById(R.id.sell_products_category_btng)).getCheckedRadioButtonId();
+        product.setCategory(((RadioButton)findViewById(buttonId)).getText().toString().trim());
+
+        product.setColour(((EditText)findViewById(R.id.sell_product_colour_text)).getText().toString().trim());
+        product.setReleasedTime(System.currentTimeMillis());
+        product.setUpdatedTime(System.currentTimeMillis());
+        product.setShippable(true);
+        product.setDiscount(0);
+        product.setFeaturedImage("StoragePath");
+        product.setSoldCount(0);
+
+        db.getReference("Products")
+                .child(productId)
+                .setValue(product)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        double wallet = userApi.getCredits();
+                        wallet = wallet - price;
+                        userApi.setCredits(wallet);
+                        db.getReference("Users")
+                                .child(userApi.getId())
+                                .child("credits")
+                                .setValue(wallet);
+                        storageReference.child("ProductImages")
+                                .child(productId)
+                                .child("FeaturedImage")
+                                .putFile(featuredImageUri)
+                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        storageReference.child("ProductImages")
+                                                .child(productId)
+                                                .child("FeaturedImage")
+                                                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                db.getReference("Products")
+                                                        .child(productId)
+                                                        .child("featuredImage")
+                                                        .setValue(String.valueOf(uri));
+                                                if(img1Uri != null){
+                                                    storageReference.child("ProductImages")
+                                                            .child(productId)
+                                                            .child("img1")
+                                                            .putFile(img1Uri);
+                                                }
+                                                if(img2Uri != null){
+                                                    storageReference.child("ProductImages")
+                                                            .child(productId)
+                                                            .child("img2")
+                                                            .putFile(img2Uri);
+                                                }
+                                                if(img3Uri != null){
+                                                    storageReference.child("ProductImages")
+                                                            .child(productId)
+                                                            .child("img3")
+                                                            .putFile(img3Uri);
+                                                }
+                                                pd.dismiss();
+                                                Toast.makeText(SellProduct.this,"Product added!",Toast.LENGTH_LONG).show();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                pd.dismiss();
+                                                Toast.makeText(SellProduct.this,"Error in saving product image.",Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                pd.dismiss();
+                                Toast.makeText(SellProduct.this,"Unable to upload featured image.",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Toast.makeText(SellProduct.this,"Unable to add product.",Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
 }
