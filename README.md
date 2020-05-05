@@ -22,7 +22,12 @@ This screen is displayed until all of required user data is loaded from the data
   <img src="https://github.com/harshh3010/ShopKart/blob/master/AppScreenshots/MyAccountActivity1.jpg" width="250">
   <img src="https://github.com/harshh3010/ShopKart/blob/master/AppScreenshots/MyAccountActivity2.jpg" width="250">
   <img src="https://github.com/harshh3010/ShopKart/blob/master/AppScreenshots/AccountSettings.jpg" width="250">
-
+  <br>
+ ### Selling Products
+Through the navigation drawer, the user can navigate to **SellProducts** Activity. Here the user can sell his own products, for doing so he has to enter the necessary details and will have to make a payment equal to 90% of the total cost price of products being added.
+<br>
+<img src="https://github.com/harshh3010/ShopKart/blob/master/AppScreenshots/SellProducts1.jpg" width="250">
+<img src="https://github.com/harshh3010/ShopKart/blob/master/AppScreenshots/SellProducts2.jpg" width="250">
  
  
  
