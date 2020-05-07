@@ -52,11 +52,14 @@ public class ProductsActivity extends AppCompatActivity {
     private void loadProducts(){
         productArrayList = new ArrayList<>();
         db.getReference("Products")
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot ds : dataSnapshot.getChildren()){
                             if(ds.child("category").getValue().toString().equals(category)){
+                                productArrayList.add(ds.getValue(Product.class));
+                            }
+                            if(category.equals("All Products")){
                                 productArrayList.add(ds.getValue(Product.class));
                             }
                         }
