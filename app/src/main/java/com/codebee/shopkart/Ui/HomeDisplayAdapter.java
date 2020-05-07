@@ -1,6 +1,7 @@
 package com.codebee.shopkart.Ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codebee.shopkart.Activities.ProductsActivity;
 import com.codebee.shopkart.Model.Product;
 import com.codebee.shopkart.R;
 import com.google.firebase.database.ChildEventListener;
@@ -48,6 +50,7 @@ public class HomeDisplayAdapter extends RecyclerView.Adapter<HomeDisplayAdapter.
     public void onBindViewHolder(@NonNull ViewHolderClass holder, int position) {
         holder.category_txt.setText(myArr.get(position));
         displayProduct(holder);
+
     }
 
     @Override
@@ -65,6 +68,15 @@ public class HomeDisplayAdapter extends RecyclerView.Adapter<HomeDisplayAdapter.
             category_txt = itemView.findViewById(R.id.item_home_category_text);
             no_products_txt = itemView.findViewById(R.id.item_home_no_products_text);
             productsRecyclerView = itemView.findViewById(R.id.item_home_products_recycler_view);
+
+            itemView.findViewById(R.id.item_home_more_image).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ProductsActivity.class);
+                    intent.putExtra("category", category_txt.getText());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -76,17 +88,20 @@ public class HomeDisplayAdapter extends RecyclerView.Adapter<HomeDisplayAdapter.
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         products = new ArrayList<>();
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            products.add(ds.getValue(Product.class));
+                            if (Integer.parseInt(ds.child("remainingCount").getValue().toString()) > 0)
+                                products.add(ds.getValue(Product.class));
                         }
-                        final ArrayList<Product> filteredProducts = new ArrayList<>();
+                        ArrayList<Product> filteredProducts = new ArrayList<>();
+
                         for (int i = 0; i < products.size(); i++) {
                             if (products.get(i).getCategory().equals(myArr.get(holder.getAdapterPosition()))) {
                                 filteredProducts.add(products.get(i));
                             }
                         }
-                        if(filteredProducts.isEmpty()){
+
+                        if (filteredProducts.isEmpty()) {
                             holder.no_products_txt.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             holder.no_products_txt.setVisibility(View.GONE);
                         }
                         adapter = new ProductAdapter(filteredProducts);
@@ -96,10 +111,10 @@ public class HomeDisplayAdapter extends RecyclerView.Adapter<HomeDisplayAdapter.
                                 false));
                         holder.productsRecyclerView.setAdapter(adapter);
 
-                        if(myArr.get(holder.getAdapterPosition()).equals("All Products")){
-                            if(products.isEmpty()){
+                        if (myArr.get(holder.getAdapterPosition()).equals("All Products")) {
+                            if (products.isEmpty()) {
                                 holder.no_products_txt.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 holder.no_products_txt.setVisibility(View.GONE);
                             }
                             adapter = new ProductAdapter(products);
