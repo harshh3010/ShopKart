@@ -1,5 +1,7 @@
 package com.codebee.shopkart.Ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codebee.shopkart.Activities.ProductViewActivity;
 import com.codebee.shopkart.Model.Product;
 import com.codebee.shopkart.R;
 import com.squareup.picasso.Picasso;
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 public class ProductAdapter2 extends RecyclerView.Adapter<ProductAdapter2.ViewHolderClass> {
 
     private ArrayList<Product> myArr;
+    private Context context;
 
     public ProductAdapter2(ArrayList<Product> myArr) {
         this.myArr = myArr;
@@ -27,6 +31,7 @@ public class ProductAdapter2 extends RecyclerView.Adapter<ProductAdapter2.ViewHo
     @Override
     public ViewHolderClass onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view_product_2,parent,false);
+        context = parent.getContext();
         return  new ProductAdapter2.ViewHolderClass(view);
     }
 
@@ -50,6 +55,17 @@ public class ProductAdapter2 extends RecyclerView.Adapter<ProductAdapter2.ViewHo
             name_txt = itemView.findViewById(R.id.item_product_name_text_2);
             price_txt = itemView.findViewById(R.id.item_product_price_text_2);
             product_img = itemView.findViewById(R.id.item_product_image_2);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent i = new Intent(context,ProductViewActivity.class);
+                    i.putExtra("product",(Product) myArr.get(getAdapterPosition()));
+                    context.startActivity(i);
+                    
+                }
+            });
         }
     }
 

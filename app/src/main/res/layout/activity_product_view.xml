@@ -20,7 +20,7 @@
             android:background="@color/colorPrimary">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/product_view_back_image"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -32,7 +32,7 @@
                 tools:ignore="VectorDrawableCompat" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/product_view_head_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -47,7 +47,7 @@
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/product_view_back_image"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -66,14 +66,15 @@
             android:orientation="vertical" >
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/product_images_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_margin="16dp" >
+                android:layout_margin="16dp">
 
             </androidx.recyclerview.widget.RecyclerView>
 
             <TextView
-                android:id="@+id/textView32"
+                android:id="@+id/product_view_name_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -85,7 +86,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textView35"
+                android:id="@+id/product_view_model_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -97,7 +98,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textView41"
+                android:id="@+id/product_view_brand_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -109,7 +110,7 @@
 
 
             <TextView
-                android:id="@+id/textView42"
+                android:id="@+id/product_view_colour_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -120,7 +121,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/textView37"
+                android:id="@+id/product_view_price_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -131,7 +132,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/textView36"
+                android:id="@+id/product_view_description_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -142,7 +143,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textView40"
+                android:id="@+id/product_view_size_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -153,7 +154,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/textView39"
+                android:id="@+id/product_view_remaining_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -164,7 +165,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/textView45"
+                android:id="@+id/product_view_shippable_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -175,7 +176,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/textView38"
+                android:id="@+id/product_view_vendor_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -187,7 +188,7 @@
 
 
             <TextView
-                android:id="@+id/textView43"
+                android:id="@+id/product_view_release_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -198,7 +199,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/textView44"
+                android:id="@+id/product_view_update_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -210,7 +211,7 @@
 
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/product_view_cart_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -222,12 +223,13 @@
                 android:textColor="@color/colorAccent" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/product_view_buy_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
                 android:background="@color/colorPrimary"
                 android:fontFamily="@font/taile"
                 android:text="Buy Now"
