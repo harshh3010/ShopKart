@@ -2,6 +2,7 @@ package com.codebee.shopkart.Ui;
 
 import android.os.Build;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codebee.shopkart.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,8 +26,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolderCl
     @NonNull
     @Override
     public ViewHolderClass onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ImageView imageView = new ImageView(parent.getContext());
-        return new ViewHolderClass(imageView);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view_product_image,parent,false);
+        return new ViewHolderClass(view);
     }
 
     @Override
@@ -42,7 +44,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolderCl
         public ImageView img;
         public ViewHolderClass(@NonNull View itemView) {
             super(itemView);
-            img = (ImageView) itemView ;
+            img = itemView.findViewById(R.id.item_view_product_image_view) ;
         }
     }
 }
