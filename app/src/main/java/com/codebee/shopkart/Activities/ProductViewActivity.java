@@ -1,24 +1,39 @@
 package com.codebee.shopkart.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.TextView;
 
 import com.codebee.shopkart.Model.Product;
 import com.codebee.shopkart.R;
+import com.codebee.shopkart.Ui.ImageAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ProductViewActivity extends AppCompatActivity {
 
     private Product product;
+    private RecyclerView recyclerView;
+    private ArrayList<String> myArr;
+    private RecyclerView.Adapter adapter;
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReference("ProductImages");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_view);
+
+        recyclerView = findViewById(R.id.product_images_recycler_view);
 
         product = (Product) getIntent().getSerializableExtra("product");
 
@@ -33,6 +48,46 @@ public class ProductViewActivity extends AppCompatActivity {
     }
 
     private void loadProductData() {
+
+        myArr = new ArrayList<String>();
+        myArr.add(product.getFeaturedImage());
+        storageReference.child("ProductImages")
+                .child(product.getId())
+                .child("img1")
+                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                myArr.add(String.valueOf(uri));
+                adapter.notifyDataSetChanged();
+            }
+        });
+        storageReference.child("ProductImages")
+                .child(product.getId())
+                .child("img2")
+                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                myArr.add(String.valueOf(uri));
+                adapter.notifyDataSetChanged();
+            }
+        });
+        storageReference.child("ProductImages")
+                .child(product.getId())
+                .child("img3")
+                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                myArr.add(String.valueOf(uri));
+                adapter.notifyDataSetChanged();
+            }
+        });
+        adapter = new ImageAdapter(myArr);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(
+                ProductViewActivity.this,
+                LinearLayoutManager.HORIZONTAL,
+                false));
+
         ((TextView)findViewById(R.id.product_view_head_text)).setText(product.getName());
         ((TextView)findViewById(R.id.product_view_name_text)).setText(product.getName());
         ((TextView)findViewById(R.id.product_view_model_text)).setText("Model : " + product.getModel());
