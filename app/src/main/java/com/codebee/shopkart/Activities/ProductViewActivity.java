@@ -148,13 +148,9 @@ public class ProductViewActivity extends AppCompatActivity {
         Map<String,String> data = new HashMap<>();
         data.put("productId",product.getId());
 
-        String cart_id = db.getReference("Carts")
-                .child(userApi.getId())
-                .push().getKey();
-
         db.getReference("Carts")
                 .child(userApi.getId())
-                .child(cart_id)
+                .child(product.getId())
                 .setValue(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

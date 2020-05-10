@@ -77,7 +77,6 @@ public class CartActivity extends AppCompatActivity {
                         recyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this));
                         adapter = new CartAdapter(myArr);
                         recyclerView.setAdapter(adapter);
-
                     }
 
                     @Override
