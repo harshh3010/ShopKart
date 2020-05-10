@@ -1,24 +1,32 @@
 package com.codebee.shopkart.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codebee.shopkart.Model.Product;
 import com.codebee.shopkart.R;
 import com.codebee.shopkart.Ui.ImageAdapter;
+import com.codebee.shopkart.Util.UserApi;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProductViewActivity extends AppCompatActivity {
 
@@ -27,6 +35,9 @@ public class ProductViewActivity extends AppCompatActivity {
     private ArrayList<String> myArr;
     private RecyclerView.Adapter adapter;
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference("ProductImages");
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private UserApi userApi = UserApi.getInstance();
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +54,13 @@ public class ProductViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        findViewById(R.id.product_view_cart_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToCart();
             }
         });
     }
@@ -120,4 +138,37 @@ public class ProductViewActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.product_view_update_text)).setText("Updated on " + mDay + "-" + mMonth + "-" + mYear);
     }
+
+    private void addToCart(){
+
+        pd = new ProgressDialog(ProductViewActivity.this,R.style.MyAlertDialogStyle);
+        pd.setMessage("Please wait...");
+        pd.show();
+
+        Map<String,String> data = new HashMap<>();
+        data.put("productId",product.getId());
+
+        String cart_id = db.getReference("Carts")
+                .child(userApi.getId())
+                .push().getKey();
+
+        db.getReference("Carts")
+                .child(userApi.getId())
+                .child(cart_id)
+                .setValue(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        pd.dismiss();
+                        Toast.makeText(ProductViewActivity.this,"Product added to your shopping cart.",Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Toast.makeText(ProductViewActivity.this,"Unable to add product to cart!",Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 }
