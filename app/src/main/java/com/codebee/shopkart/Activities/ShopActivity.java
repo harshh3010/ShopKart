@@ -52,6 +52,13 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        findViewById(R.id.shop_my_cart_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ShopActivity.this,CartActivity.class));
+            }
+        });
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.shop_fragment_container, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.navigation_home);
@@ -105,6 +112,9 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.navigation_sell :
                 startActivity(new Intent(ShopActivity.this,SellProduct.class));
+                break;
+            case R.id.navigation_cart :
+                startActivity(new Intent(ShopActivity.this,CartActivity.class));
                 break;
         }
         return true;

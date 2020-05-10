@@ -170,5 +170,4 @@ public class ProductViewActivity extends AppCompatActivity {
             }
         });
     }
-
 }
